@@ -82,8 +82,9 @@ Steps to finish setup:
           <textarea id="notes" name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Tell us about your specific digital signage requirements..."></textarea>
         </div>
         
-        <!-- Additional field for HubSpot compatibility -->
+        <!-- Additional fields for HubSpot compatibility -->
         <input type="hidden" name="hs_context" id="hs_context" />
+        <input type="hidden" name="submission_timestamp" id="submission_timestamp" />
 
         <!-- Hidden meta fields that HubSpot will also ingest -->
         <input type="hidden" name="page_title" id="page_title" />
@@ -111,6 +112,9 @@ Steps to finish setup:
       pageUrl: location.href,
       pageName: document.title
     });
+    
+    // Set submission timestamp
+    document.getElementById('submission_timestamp').value = new Date().toISOString();
 
     // Capture UTM parameters
     const p = new URLSearchParams(location.search);
@@ -146,6 +150,21 @@ Steps to finish setup:
 
       // Build the GET query from the form values
       const formData = new FormData(form);
+      
+      // Add timestamp to notes for better tracking of repeat submissions
+      const notesField = formData.get('notes');
+      if (notesField && notesField.trim()) {
+        const timestamp = new Date().toLocaleString('en-GB', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        const timestampedNotes = `[${timestamp}] ${notesField}`;
+        formData.set('notes', timestampedNotes);
+      }
+      
       const data = new URLSearchParams(formData).toString();
       
       // Debug: Log form data to console
