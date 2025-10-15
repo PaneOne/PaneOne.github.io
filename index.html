@@ -32,6 +32,28 @@ Steps to finish setup:
   <div class="max-w-7xl mx-auto px-4 py-12">
     <h1 class="text-4xl font-bold text-center text-blue-600 mb-8">PaneOne - Digital Signage Management</h1>
     <p class="text-center text-gray-600 text-lg mb-8">Professional digital signage management platform with modern design</p>
+    <p class="text-center text-gray-700 text-base mb-8">Specializing in niche digital signage solutions for specific business needs</p>
+    
+    <!-- Niche Solutions Section -->
+    <div class="max-w-4xl mx-auto mb-12">
+      <h2 class="text-2xl font-bold text-center text-gray-900 mb-8">Our Niche Solutions</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">Staff Photo Board</h3>
+          <p class="text-gray-600 mb-4">Digital staff directory and photo board solution for offices and organizations.</p>
+          <a href="https://staffphotoboard.paneone.net" class="inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors" target="_blank">
+            View Solution →
+          </a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">More Solutions Coming</h3>
+          <p class="text-gray-600 mb-4">We're developing additional niche digital signage solutions. Register your interest to be notified of new releases.</p>
+          <span class="inline-block bg-gray-300 text-gray-600 px-4 py-2 rounded-md cursor-not-allowed">
+            Coming Soon
+          </span>
+        </div>
+      </div>
+    </div>
     
     <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-sm mb-12">
       <h2 class="text-2xl font-bold text-center text-gray-900 mb-6">Register Your Interest</h2>
@@ -60,6 +82,24 @@ Steps to finish setup:
         <div>
           <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Company/Organization</label>
           <input type="text" id="company" name="company" class="w-full px-3 py-2 border border-gray-300 rounded-md" autocomplete="organization" />
+        </div>
+        <div>
+          <label for="specificNeed" class="block text-sm font-medium text-gray-700 mb-1">What specific digital signage need do you have?</label>
+          <select id="specificNeed" name="specificNeed" class="w-full px-3 py-2 border border-gray-300 rounded-md">
+            <option value="">Select your need...</option>
+            <option value="staff-directory">Staff Directory / Photo Board</option>
+            <option value="wayfinding">Wayfinding / Navigation</option>
+            <option value="event-displays">Event Displays / Announcements</option>
+            <option value="menu-boards">Menu Boards / Food Service</option>
+            <option value="queue-management">Queue Management</option>
+            <option value="branded-content">Branded Content Display</option>
+            <option value="data-visualization">Data Visualization / Dashboards</option>
+            <option value="other">Other (please specify in message)</option>
+          </select>
+        </div>
+        <div>
+          <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Additional Details (Optional)</label>
+          <textarea id="message" name="message" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Tell us more about your specific requirements..."></textarea>
         </div>
 
         <!-- Hidden meta fields that HubSpot will also ingest -->
