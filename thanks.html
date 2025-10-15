@@ -1,0 +1,48 @@
+<!-- =============================
+File: thanks.html
+Purpose: PaneOne thank you page compatible with GitHub Pages after GET submit.
+NOTE: Paste your HubSpot tracking code here too, so the session continues.
+============================= -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thanks — We've got your request</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- 🔧 Paste your HubSpot tracking code snippet BELOW (same as index.html). -->
+  <!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/147074594.js"></script>
+<!-- End of HubSpot Embed Code -->
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-sm">
+      <h1 class="text-4xl font-bold text-center text-blue-600 mb-6">Thanks, <span id="name">there</span>! 🎉</h1>
+      <p class="text-center text-gray-600 text-lg mb-6">We've received your interest in PaneOne and will be in touch soon with updates about our digital signage platform.</p>
+      <p class="text-center text-gray-600 mb-6">If you have any questions, feel free to reach out to us.</p>
+      <div class="text-center">
+        <a href="./index.html" class="bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 inline-block">Return to Homepage</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Read name from query string for a nicer confirmation
+    (function(){
+      const p = new URLSearchParams(location.search);
+      const first = p.get('firstName');
+      document.getElementById('name').textContent = first ? first : 'there';
+      
+      // Track the thank you page view in HubSpot
+      if (typeof window._hsq !== 'undefined') {
+        window._hsq.push(['trackEvent', {
+          id: 'thank_you_page_view',
+          value: 'register_interest_success'
+        }]);
+      }
+    })();
+  </script>
+</body>
+</html>

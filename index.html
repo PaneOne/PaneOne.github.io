@@ -1,0 +1,128 @@
+<!-- =============================
+File: index.html
+Purpose: PaneOne Digital Signage Management landing page with HubSpot integration
+How it works:
+  • You host this on GitHub Pages (no backend required).
+  • You build your own HTML form (no HubSpot form embed → no branding).
+  • You enable Non‑HubSpot forms in HubSpot and paste your HubSpot tracking code below.
+  • On submit, the form navigates to thanks.html via GET (works on GitHub Pages),
+    and the HubSpot tracking script records the submission into your CRM.
+Steps to finish setup:
+  1) In HubSpot: Settings → Marketing → Forms → enable "Non‑HubSpot forms".
+  2) In HubSpot: Settings → Tracking & analytics → Tracking code → Copy your code.
+  3) Paste your tracking code in BOTH files just before </head>.
+  4) Commit both files to the root of your GitHub Pages repo.
+  5) Visit /index.html, submit a test lead, then check Contacts in HubSpot.
+============================= -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PaneOne - Digital Signage Management</title>
+  <meta name="description" content="Professional digital signage management platform with modern design. Get early access to our digital signage platform and stay updated on new features." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- 🔧 Paste your HubSpot tracking code snippet BELOW this comment (from your portal). -->
+  <!-- Start of HubSpot Embed Code -->
+<script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/147074594.js"></script>
+<!-- End of HubSpot Embed Code -->
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-center text-blue-600 mb-8">PaneOne - Digital Signage Management</h1>
+    <p class="text-center text-gray-600 text-lg mb-8">Professional digital signage management platform with modern design</p>
+    
+    <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-sm mb-12">
+      <h2 class="text-2xl font-bold text-center text-gray-900 mb-6">Register Your Interest</h2>
+      <p class="text-center text-gray-600 mb-6">Get early access to our digital signage platform and stay updated on new features.</p>
+      
+      <!--
+        IMPORTANT: This is a custom HTML form. HubSpot Free will capture it as a "Non‑HubSpot form"
+        when your tracking code is installed and Non‑HubSpot forms are enabled in Settings.
+        We submit with method=GET to thanks.html so it works on GitHub Pages (no backend).
+      -->
+      <form id="registerForm" class="space-y-4" action="thanks.html" method="GET" novalidate>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+            <input type="text" id="firstName" name="firstName" required class="w-full px-3 py-2 border border-gray-300 rounded-md" autocomplete="given-name" />
+          </div>
+          <div>
+            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+            <input type="text" id="lastName" name="lastName" required class="w-full px-3 py-2 border border-gray-300 rounded-md" autocomplete="family-name" />
+          </div>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+          <input type="email" id="email" name="email" required class="w-full px-3 py-2 border border-gray-300 rounded-md" autocomplete="email" />
+        </div>
+        <div>
+          <label for="company" class="block text-sm font-medium text-gray-700 mb-1">Company/Organization</label>
+          <input type="text" id="company" name="company" class="w-full px-3 py-2 border border-gray-300 rounded-md" autocomplete="organization" />
+        </div>
+
+        <!-- Hidden meta fields that HubSpot will also ingest -->
+        <input type="hidden" name="page_title" id="page_title" />
+        <input type="hidden" name="page_url" id="page_url" />
+        <input type="hidden" name="utm_source" id="utm_source" />
+        <input type="hidden" name="utm_medium" id="utm_medium" />
+        <input type="hidden" name="utm_campaign" id="utm_campaign" />
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700">Register Interest</button>
+      </form>
+      
+      <div id="formMessage" class="mt-4 text-center hidden"></div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    // Set page metadata for HubSpot tracking
+    document.getElementById('page_title').value = document.title;
+    document.getElementById('page_url').value = location.href;
+
+    // Capture UTM parameters
+    const p = new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign'].forEach(k=>{
+      const v = p.get(k); if(v) document.getElementById(k).value = v;
+    });
+
+    const form = document.getElementById('registerForm');
+    form.addEventListener('submit', function(e){
+      if(!form.checkValidity()){
+        e.preventDefault();
+        alert('Please complete the required fields.');
+        return;
+      }
+
+      // --- Enhanced HubSpot form submission ---
+      e.preventDefault();
+      
+      // Show loading state
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Submitting...';
+      submitBtn.disabled = true;
+
+      // Ensure HubSpot tracking is working
+      if (typeof window._hsq !== 'undefined') {
+        // Track the form submission event
+        window._hsq.push(['trackEvent', {
+          id: 'form_submission',
+          value: 'register_interest'
+        }]);
+      }
+
+      // Build the GET query from the form values
+      const data = new URLSearchParams(new FormData(form)).toString();
+      
+      // Give HubSpot time to capture the submission (increased delay)
+      setTimeout(function(){
+        window.location.href = 'thanks.html?' + data;
+      }, 1500);
+    });
+  })();
+  </script>
+</body>
+</html>
