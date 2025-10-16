@@ -106,9 +106,9 @@ Steps to finish setup:
     document.getElementById('page_title').value = document.title;
     document.getElementById('page_url').value = location.href;
     
-    // Set HubSpot context
+    // Set HubSpot context - clear tracking cookie to prevent contact merging
     document.getElementById('hs_context').value = JSON.stringify({
-      hutk: document.cookie.replace(/(?:(?:^|.*;\s*)hubspotutk\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
+      hutk: '', // Clear tracking cookie to prevent contact merging
       pageUrl: location.href,
       pageName: document.title
     });
@@ -132,6 +132,12 @@ Steps to finish setup:
 
       // --- Enhanced HubSpot form submission ---
       e.preventDefault();
+      
+      // Clear HubSpot tracking cookie to prevent contact merging
+      document.cookie = 'hubspotutk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = '__hssc=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = '__hssrc=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = '__hstc=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       
       // Show loading state
       const submitBtn = form.querySelector('button[type="submit"]');
