@@ -102,6 +102,41 @@ Steps to finish setup:
 
   <script>
   (function(){
+    // Clear HubSpot cookies on page load to prevent contact merging
+    function clearHubSpotCookiesOnLoad() {
+      const cookiesToClear = [
+        'hubspotutk',
+        '__hstc', 
+        '__hssc',
+        '__hssrc',
+        '__hs_opt_out',
+        '__hs_do_not_track',
+        '__hs_initial_opt_in',
+        '__hs_cookie_cat_pref',
+        'hs-messages-is-open',
+        'hs-messages-hide-welcome-message'
+      ];
+      
+      const domains = [window.location.hostname, '.' + window.location.hostname, 'paneone.net', '.paneone.net'];
+      const paths = ['/', '/index.html', '/thanks.html'];
+      
+      cookiesToClear.forEach(cookieName => {
+        domains.forEach(domain => {
+          paths.forEach(path => {
+            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; domain=${domain};`;
+            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`;
+            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${domain};`;
+            document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+          });
+        });
+      });
+      
+      console.log('HubSpot cookies cleared on page load:', document.cookie);
+    }
+    
+    // Clear cookies immediately on page load
+    clearHubSpotCookiesOnLoad();
+    
     // Set page metadata for HubSpot tracking
     document.getElementById('page_title').value = document.title;
     document.getElementById('page_url').value = location.href;
@@ -133,11 +168,43 @@ Steps to finish setup:
       // --- Enhanced HubSpot form submission ---
       e.preventDefault();
       
-      // Clear HubSpot tracking cookie to prevent contact merging
-      document.cookie = 'hubspotutk=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = '__hssc=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = '__hssrc=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-      document.cookie = '__hstc=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      // ROBUST HubSpot cookie clearing to prevent contact merging
+      function clearHubSpotCookies() {
+        const cookiesToClear = [
+          'hubspotutk',
+          '__hstc', 
+          '__hssc',
+          '__hssrc',
+          '__hs_opt_out',
+          '__hs_do_not_track',
+          '__hs_initial_opt_in',
+          '__hs_cookie_cat_pref',
+          'hs-messages-is-open',
+          'hs-messages-hide-welcome-message'
+        ];
+        
+        const domains = [window.location.hostname, '.' + window.location.hostname, 'paneone.net', '.paneone.net'];
+        const paths = ['/', '/index.html', '/thanks.html'];
+        
+        cookiesToClear.forEach(cookieName => {
+          domains.forEach(domain => {
+            paths.forEach(path => {
+              // Clear with different combinations of domain and path
+              document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path}; domain=${domain};`;
+              document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`;
+              document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=${domain};`;
+              document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+            });
+          });
+        });
+        
+        console.log('HubSpot cookies cleared:', document.cookie);
+      }
+      
+      // Clear cookies multiple times to ensure they're gone
+      clearHubSpotCookies();
+      setTimeout(clearHubSpotCookies, 100);
+      setTimeout(clearHubSpotCookies, 500);
       
       // Show loading state
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -178,6 +245,9 @@ Steps to finish setup:
       
       // Give HubSpot time to capture the submission (increased delay)
       setTimeout(function(){
+        // Final cookie clearing before redirect
+        clearHubSpotCookies();
+        console.log('Final cookie clearing before redirect:', document.cookie);
         window.location.href = 'thanks.html?' + data;
       }, 1500);
     });
